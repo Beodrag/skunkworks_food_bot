@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "875761298341",
+    "project_id": "skunkworks-food-bot",
+    "storage_bucket": "skunkworks-food-bot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875761298341:android:e63be79800319af090d64c",
+        "android_client_info": {
+          "package_name": "com.example.food_bot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0O_WBDCYTiY0WsNcvLXOWaeoJqwF89Qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

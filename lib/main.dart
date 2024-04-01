@@ -1,19 +1,55 @@
 // main.dart
-
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
+import 'cart_model.dart';
 import 'restaurant_list.dart';
-void main() => runApp(MyApp());
+import 'package:firebase_core/firebase_core.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final FirebaseOptions firebaseOptions = (Platform.isIOS || Platform.isMacOS)
+      ? const FirebaseOptions(
+    apiKey: "AIzaSyAT37WFUXYPXQtxdPq0i21qMezk-NsShMg", // Your iOS apiKey
+    authDomain: "skunkworks-food-bot.firebaseapp.com",
+    databaseURL: "https://skunkworks-food-bot-default-rtdb.firebaseio.com",
+    projectId: "skunkworks-food-bot",
+    storageBucket: "skunkworks-food-bot.appspot.com",
+    messagingSenderId: "875761298341",
+    appId: "1:875761298341:ios:618d8bba9d0e1e6590d64c", // From GoogleService-Info.plist
+    measurementId: "G-3VQ94J9TBM",
+  )
+      : const FirebaseOptions(
+    apiKey: "AIzaSyA0O_WBDCYTiY0WsNcvLXOWaeoJqwF89Qo", // Your Android apiKey
+    authDomain: "skunkworks-food-bot.firebaseapp.com",
+    databaseURL: "https://skunkworks-food-bot-default-rtdb.firebaseio.com",
+    projectId: "skunkworks-food-bot",
+    storageBucket: "skunkworks-food-bot.appspot.com",
+    messagingSenderId: "875761298341",
+    appId: "1:875761298341:android:e63be79800319af090d64c", // From google-services.json
+  );
+
+  await Firebase.initializeApp(
+    options: firebaseOptions,
+  );
+
+  runApp(MyApp());
+}
+
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Food Robot Delivery',
-      home: AddressSelectionPage(),
+    return ChangeNotifierProvider(
+      create: (context) => CartModel(),
+      child: MaterialApp(
+        title: 'Food Robot Delivery',
+        home: AddressSelectionPage(),
+      ),
     );
   }
 }
@@ -51,6 +87,8 @@ class _AddressSelectionPageState extends State<AddressSelectionPage> {
     LatLng center = _mapController.center;
     String address = await _getAddress(center);
 
+    Provider.of<CartModel>(context, listen: false).updateUserLocation(address, center);
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -70,7 +108,6 @@ class _AddressSelectionPageState extends State<AddressSelectionPage> {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () {
-                      // Navigate to the restaurant list page
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => RestaurantList()),
@@ -100,23 +137,26 @@ class _AddressSelectionPageState extends State<AddressSelectionPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Select Delivery Location'),
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
         ),
         body: Stack(
           children: <Widget>[
             FlutterMap(
               mapController: _mapController,
               options: MapOptions(
-                center: _initialCenter,
-                zoom: 16.0,
+                initialCenter: _initialCenter,
+                initialZoom: 16.0,
                 minZoom: 16.0,
-                maxZoom: 18.0, // Set the maximum zoom level to 18
+                maxZoom: 18.0,
                 interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
               ),
-              layers: [
-                TileLayerOptions(
+              children: [
+                TileLayer(
                   urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                   subdomains: ['a', 'b', 'c'],
                 ),
+                // Add other layers or widgets here
               ],
             ),
             Center(
@@ -131,6 +171,7 @@ class _AddressSelectionPageState extends State<AddressSelectionPage> {
                 child: Text('Confirm Address'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   textStyle: TextStyle(fontSize: 16),
                 ),
@@ -142,5 +183,3 @@ class _AddressSelectionPageState extends State<AddressSelectionPage> {
     );
   }
 }
-
-
