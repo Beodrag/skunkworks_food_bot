@@ -1,17 +1,17 @@
-// restaurant_detail.dart
+// the_habit_detail.dart
 
 import 'package:flutter/material.dart';
 
-class RestaurantDetail extends StatelessWidget {
+class HalalShackDetail extends StatelessWidget {
   final Map<String, String> restaurant;
 
-  RestaurantDetail({required this.restaurant});
+  HalalShackDetail({required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(restaurant['name'] ?? 'Restaurant Details'),
+        title: Text('The Halal Shack'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -20,7 +20,7 @@ class RestaurantDetail extends StatelessWidget {
           children: [
             // Display the restaurant image at the top
             Image.asset(
-              restaurant['image'] ?? 'assets/images/default_image.jpg',
+              'assets/images/halal_shack.jpg', // Add the image path for The Habit
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200.0, // You can adjust the height as needed
@@ -29,7 +29,7 @@ class RestaurantDetail extends StatelessWidget {
 
             // Display the restaurant name centered under the image
             Text(
-              restaurant['name'] ?? 'N/A',
+              'The Halal Shack',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24.0,
@@ -38,7 +38,7 @@ class RestaurantDetail extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
 
-            // Add a vertical list of food options with categories
+            // Add a vertical list of food options for The Habit
             Expanded(
               child: ListView(
                 children: [
@@ -46,55 +46,33 @@ class RestaurantDetail extends StatelessWidget {
                     categoryName: 'Popular',
                     foodList: [
                       FoodItem(
-                        name: 'Food Item 1',
-                        description: 'Description for Food Item 1',
-                        image: 'assets/images/food_item_1.jpg',
+                        name: 'Charburger',
+                        description: 'Classic Charburger with cheese',
+                        image: 'assets/images/charburger.jpg',
                       ),
                       FoodItem(
-                        name: 'Food Item 2',
-                        description: 'Description for Food Item 2',
-                        image: 'assets/images/food_item_2.jpg',
+                        name: 'Santa Barbara Style',
+                        description: 'Santa Barbara Style Char with avocado',
+                        image: 'assets/images/santa_barbara.jpg',
                       ),
-                      // Add more popular food items
+                      // Add more popular food items for The Habit
                     ],
                   ),
-                  FoodCategory(
-                    categoryName: 'Charburgers',
-                    foodList: [
-                      FoodItem(
-                        name: 'Food Item 3',
-                        description: 'Description for Food Item 3',
-                        image: 'assets/images/food_item_3.jpg',
-                      ),
-                      FoodItem(
-                        name: 'Food Item 4',
-                        description: 'Description for Food Item 4',
-                        image: 'assets/images/food_item_4.jpg',
-                      ),
-                      // Add more charburgers
-                    ],
-                  ),
-                  FoodCategory(
-                    categoryName: 'Signature Sandwiches',
-                    foodList: [
-                      FoodItem(
-                        name: 'Food Item 5',
-                        description: 'Description for Food Item 5',
-                        image: 'assets/images/food_item_5.jpg',
-                      ),
-                      FoodItem(
-                        name: 'Food Item 6',
-                        description: 'Description for Food Item 6',
-                        image: 'assets/images/food_item_6.jpg',
-                      ),
-                      // Add more signature sandwiches
-                    ],
-                  ),
-                  // Add more categories and food items as needed
+                  // Add more categories and food items for The Habit
                 ],
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigate back to the previous page (Restaurant List)
+            Navigator.pop(context);
+          },
+          child: Text('Back to Restaurant List'),
         ),
       ),
     );
@@ -192,4 +170,10 @@ class FoodOption extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: HalalShackDetail(restaurant: {},),
+  ));
 }
