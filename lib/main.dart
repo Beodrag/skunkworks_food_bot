@@ -1,5 +1,6 @@
 // main.dart
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -12,26 +13,44 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final FirebaseOptions firebaseOptions = (Platform.isIOS || Platform.isMacOS)
-      ? const FirebaseOptions(
-    apiKey: "AIzaSyAT37WFUXYPXQtxdPq0i21qMezk-NsShMg", // Your iOS apiKey
-    authDomain: "skunkworks-food-bot.firebaseapp.com",
-    databaseURL: "https://skunkworks-food-bot-default-rtdb.firebaseio.com",
-    projectId: "skunkworks-food-bot",
-    storageBucket: "skunkworks-food-bot.appspot.com",
-    messagingSenderId: "875761298341",
-    appId: "1:875761298341:ios:618d8bba9d0e1e6590d64c", // From GoogleService-Info.plist
-    measurementId: "G-3VQ94J9TBM",
-  )
-      : const FirebaseOptions(
-    apiKey: "AIzaSyA0O_WBDCYTiY0WsNcvLXOWaeoJqwF89Qo", // Your Android apiKey
-    authDomain: "skunkworks-food-bot.firebaseapp.com",
-    databaseURL: "https://skunkworks-food-bot-default-rtdb.firebaseio.com",
-    projectId: "skunkworks-food-bot",
-    storageBucket: "skunkworks-food-bot.appspot.com",
-    messagingSenderId: "875761298341",
-    appId: "1:875761298341:android:e63be79800319af090d64c", // From google-services.json
-  );
+  FirebaseOptions firebaseOptions;
+
+  if (kIsWeb) {
+    // Placeholder for the Firebase configuration for Web
+    firebaseOptions = const FirebaseOptions(
+      apiKey: "AIzaSyAT37WFUXYPXQtxdPq0i21qMezk-NsShMg",
+      authDomain: "skunkworks-food-bot.firebaseapp.com",
+      databaseURL: "https://skunkworks-food-bot-default-rtdb.firebaseio.com",
+      projectId: "skunkworks-food-bot",
+      storageBucket: "skunkworks-food-bot.appspot.com",
+      messagingSenderId: "875761298341",
+      appId: "1:875761298341:ios:618d8bba9d0e1e6590d64c",
+      measurementId: "G-3VQ94J9TBM",
+    );
+  } else {
+    firebaseOptions = (Platform.isIOS || Platform.isMacOS)
+        ? const FirebaseOptions(
+      // iOS and macOS configuration
+      apiKey: "AIzaSyAT37WFUXYPXQtxdPq0i21qMezk-NsShMg",
+      authDomain: "skunkworks-food-bot.firebaseapp.com",
+      databaseURL: "https://skunkworks-food-bot-default-rtdb.firebaseio.com",
+      projectId: "skunkworks-food-bot",
+      storageBucket: "skunkworks-food-bot.appspot.com",
+      messagingSenderId: "875761298341",
+      appId: "1:875761298341:ios:618d8bba9d0e1e6590d64c",
+      measurementId: "G-3VQ94J9TBM",
+    )
+        : const FirebaseOptions(
+      // Android configuration
+      apiKey: "AIzaSyA0O_WBDCYTiY0WsNcvLXOWaeoJqwF89Qo",
+      authDomain: "skunkworks-food-bot.firebaseapp.com",
+      databaseURL: "https://skunkworks-food-bot-default-rtdb.firebaseio.com",
+      projectId: "skunkworks-food-bot",
+      storageBucket: "skunkworks-food-bot.appspot.com",
+      messagingSenderId: "875761298341",
+      appId: "1:875761298341:android:e63be79800319af090d64c",
+    );
+  }
 
   await Firebase.initializeApp(
     options: firebaseOptions,
