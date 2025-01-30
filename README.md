@@ -1,16 +1,4 @@
-# food_bot
+# Highlander Skunkworks Delivery Bot App
 
-A new Flutter project.
+A full-stack application developed in Dart where users can order from on-campus resturants to be delivered through the Skunkworks food robot. Users can register and authenticate through their UCR account, order food from any on-campus resturant, and track their deliveries in real time.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
